@@ -1,171 +1,156 @@
 # Industrial Machine Failure Prediction
 
-A machine learning project for predicting industrial machine failures using operating conditions such as temperature, rotational speed, torque, tool wear, and machine type.
+A machine learning project that predicts the likelihood of industrial machine failure using the AI4I 2020 Predictive Maintenance Dataset.
 
-## Problem Statement
+## Live Demo
 
-Industrial machines can fail because of abnormal operating conditions and equipment wear. Unexpected failures can cause downtime, maintenance costs, and production losses.
+https://sandanapm-machine-failure-prediction-app-ffsjwy.streamlit.app/
 
-This project develops a machine learning classification system that predicts whether a machine is likely to experience failure based on its observed operating parameters.
+## GitHub Repository
 
-## Objective
+https://github.com/SandanaPM/Machine-Failure-Prediction
 
-To develop and evaluate machine learning models for industrial machine failure prediction and provide an interactive Streamlit application for real-time prediction.
+## Project Objective
+
+Develop an end-to-end machine learning solution to predict whether an industrial machine is likely to experience failure based on operating and maintenance parameters.
 
 ## Dataset
 
-The project uses the **AI4I 2020 Predictive Maintenance Dataset** from the UCI Machine Learning Repository.
+The project uses the AI4I 2020 Predictive Maintenance Dataset from the UCI Machine Learning Repository.
 
-* Dataset: AI4I 2020 Predictive Maintenance Dataset
-* Instances: 10,000
-* Columns: 14
-* Target: `Machine failure`
-* Dataset type: Synthetic predictive-maintenance data
-* Missing values: None
-* Task: Binary classification
+- Records: 10,000
+- Features used:
+  - Type
+  - Air temperature [K]
+  - Process temperature [K]
+  - Rotational speed [rpm]
+  - Torque [Nm]
+  - Tool wear [min]
+- Target: Machine failure
+- Missing values: 0
+- Duplicate records: 0
 
-The dataset contains machine operating parameters including:
+Dataset source:
 
-* Product Type
-* Air Temperature
-* Process Temperature
-* Rotational Speed
-* Torque
-* Tool Wear
-* Machine Failure
-
-Dataset source: UCI Machine Learning Repository
-DOI: 10.24432/C5HS5C
-License: CC BY 4.0
-
-## Machine Learning Workflow
-
-The project follows this workflow:
-
-1. Dataset collection
-2. Data preprocessing
-3. Exploratory Data Analysis
-4. Feature selection
-5. Train-test split
-6. Feature scaling and categorical encoding
-7. Model training
-8. Model evaluation
-9. Best model selection
-10. Prediction
-11. Streamlit deployment
+https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset
 
 ## Exploratory Data Analysis
 
-The EDA includes:
+The project investigates:
 
-* Dataset shape and structure
-* Data types
-* Missing-value analysis
-* Duplicate-value analysis
-* Target distribution
-* Numerical feature distributions
-* Boxplots
-* Correlation analysis
-* Failure rate by machine type
-* Failure-mode analysis
-* Outlier analysis
+- Dataset structure and data types
+- Missing values and duplicate records
+- Class distribution
+- Numerical feature distributions
+- Outliers
+- Feature relationships
+- Correlation
+- Failure rates
+- Failure-mode indicators
 
-The EDA notebook is available at:
+EDA notebook:
 
 `notebooks/EDA.ipynb`
 
-## Features Used
+## Machine Learning Models
 
-The final model uses the following features:
-
-| Feature                 | Description              |
-| ----------------------- | ------------------------ |
-| Type                    | Machine/product type     |
-| Air temperature [K]     | Air temperature          |
-| Process temperature [K] | Process temperature      |
-| Rotational speed [rpm]  | Machine rotational speed |
-| Torque [Nm]             | Machine torque           |
-| Tool wear [min]         | Tool usage/wear time     |
-
-Target variable:
-
-`Machine failure`
-
-## Models Evaluated
-
-Three classification algorithms were trained and compared:
+Three classification models were evaluated:
 
 1. Logistic Regression
 2. Decision Tree
 3. Random Forest
 
-Class balancing was used during model training because machine failures are much less frequent than normal operating records.
+An 80/20 stratified train-test split was used.
 
-## Model Evaluation
+Preprocessing includes:
 
-The models were evaluated using:
+- Standardization of numerical features
+- One-hot encoding of the machine Type feature
 
-* Accuracy
-* Precision
-* Recall
-* F1-Score
-* ROC-AUC
-* Confusion Matrix
+The preprocessing and model are saved together as a pipeline.
 
-### Results
+## Model Results
 
-| Model               |   Accuracy |  Precision | Recall |   F1-Score |    ROC-AUC |
-| ------------------- | ---------: | ---------: | -----: | ---------: | ---------: |
-| Logistic Regression |     82.45% |     14.18% | 82.35% |     24.19% |     90.70% |
-| Decision Tree       |     95.35% |     40.88% | 82.35% |     54.63% |     90.06% |
-| Random Forest       | **96.85%** | **52.58%** | 75.00% | **61.82%** | **96.39%** |
+| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression | 82.45% | 14.18% | 82.35% | 24.19% | 90.70% |
+| Decision Tree | 95.35% | 40.88% | 82.35% | 54.63% | 90.06% |
+| Random Forest | 96.85% | 52.58% | 75.00% | 61.82% | 96.39% |
 
-The Random Forest model achieved the highest F1-score among the evaluated models and was saved as the final model.
+The Random Forest model was selected as the final prototype model based on the evaluation results.
 
-## Class Distribution
+## Streamlit Application
 
-The dataset contains:
+The Streamlit application allows users to enter machine operating parameters and receive:
 
-* Normal operation: 9,661 records
-* Machine failure: 339 records
+- Predicted machine failure class
+- Failure probability
+- Machine status
 
-This represents approximately:
-
-* Normal: 96.61%
-* Failure: 3.39%
-
-Because the target classes are imbalanced, precision, recall, F1-score, and ROC-AUC are considered alongside accuracy.
+The application uses the same preprocessing pipeline used during model training.
 
 ## Project Structure
 
-```text
-Machine-Failure-Prediction/
-│
-├── data/
-│   ├── ai4i2020.csv
-│   ├── model_results.csv
-│   └── eda/
-│
-├── models/
-│   └── machine_failure_model.pkl
-│
-├── notebooks/
-│   └── EDA.ipynb
-│
-├── src/
-│   ├── train.py
-│   └── predict.py
-│
-├── app.py
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
+    Machine-Failure-Prediction/
+    ├── data/
+    │   ├── ai4i2020.csv
+    │   ├── model_results.csv
+    │   └── eda/
+    ├── models/
+    │   └── machine_failure_model.pkl
+    ├── notebooks/
+    │   └── EDA.ipynb
+    ├── src/
+    │   ├── train.py
+    │   └── predict.py
+    ├── app.py
+    ├── requirements.txt
+    ├── README.md
+    └── .gitignore
 
-## Model Training
+## Installation
 
-The training pipeline:
+Clone the repository:
 
-* Loads the dataset
-* Selects relevant features
-* Splits the data into training and
+    git clone https://github.com/SandanaPM/Machine-Failure-Prediction.git
+
+Move into the project directory:
+
+    cd Machine-Failure-Prediction
+
+Install dependencies:
+
+    pip install -r requirements.txt
+
+## Run the Streamlit Application
+
+    streamlit run app.py
+
+## Run Model Training
+
+    python src/train.py
+
+## Run Prediction Test
+
+    python src/predict.py
+
+## Limitations
+
+- The AI4I 2020 dataset is synthetic.
+- The project is an educational prototype.
+- The model is not intended to be used as a production industrial safety system.
+- Real industrial deployment would require validation using real operational data.
+
+## Future Scope
+
+- Validate the model using real industrial sensor data.
+- Include additional sensor and maintenance indicators.
+- Investigate time-series failure patterns.
+- Compare additional machine learning approaches.
+- Further improve model evaluation and tuning.
+
+## References
+
+UCI Machine Learning Repository. AI4I 2020 Predictive Maintenance Dataset.
+
+https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset
